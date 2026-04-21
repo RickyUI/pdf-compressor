@@ -14,16 +14,15 @@ QUALITY = 80
 @pytest.fixture
 def tiny_pdf(tmp_path):
     path = tmp_path / "input.pdf"
-    doc = fitz.open()
-    for i in range(3):
-        page = doc.new_page(width=595, height=842)
-        page.insert_text((72, 72), f"Test page {i + 1}", fontsize=24)
-        # Embed a random-data image so the file has meaningful size and is compressible
-        samples = os.urandom(300 * 400 * 3)
-        pix = fitz.Pixmap(fitz.csRGB, (0, 0, 300, 400), samples)
-        page.insert_image(fitz.Rect(50, 100, 350, 500), pixmap=pix)
-    doc.save(str(path))
-    doc.close()
+    with fitz.open() as doc:
+        for i in range(3):
+            page = doc.new_page(width=595, height=842)
+            page.insert_text((72, 72), f"Test page {i + 1}", fontsize=24)
+            # Embed a random-data image so the file has meaningful size and is compressible
+            samples = os.urandom(300 * 400 * 3)
+            pix = fitz.Pixmap(fitz.csRGB, (0, 0, 300, 400), samples)
+            page.insert_image(fitz.Rect(50, 100, 350, 500), pixmap=pix)
+        doc.save(str(path))
     return path
 
 
