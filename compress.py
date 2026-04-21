@@ -17,8 +17,7 @@ def compress_pdf(input_path: Path, output_path: Path, dpi: int, quality: int) ->
     src = fitz.open(str(input_path))
     dst = fitz.open()
     for page in src:
-        scale = min(dpi / 72, 1.0)
-        mat = fitz.Matrix(scale, scale)
+        mat = fitz.Matrix(dpi / 72, dpi / 72)
         pix = page.get_pixmap(matrix=mat)
         jpeg_bytes = pix.tobytes("jpeg", jpg_quality=quality)
         new_page = dst.new_page(width=page.rect.width, height=page.rect.height)
