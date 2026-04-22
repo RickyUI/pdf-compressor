@@ -10,6 +10,8 @@ PASSES = [
     {"dpi": 120, "quality": 70},
     {"dpi": 96,  "quality": 60},
     {"dpi": 72,  "quality": 50},
+    {"dpi": 60,  "quality": 40},
+    {"dpi": 48,  "quality": 30},
 ]
 
 
@@ -78,7 +80,7 @@ def main() -> None:
         total_in = sum(r["original_mb"] for r in results)
         total_out = sum(r["compressed_mb"] for r in results if r["compressed_mb"] is not None)
         total_saved = (1 - total_out / total_in) * 100 if total_in else 0
-        print(f"\n{'─' * 80}")
+        print(f"\n{'-' * 80}")
         print(
             f"  {'Total':<58} "
             f"{total_in:>6.1f} MB         ->  "
